@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+	  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+
+	<tlib-version>1.1.2</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>Eastcom SSO</short-name>
+	<description>Eastcom SSO JSP Tag Library extends the hasAnyPermissions tag.</description>
+
+	<tag>
+		<name>hasPermission</name>
+		<tag-class>com.eastcom.sso.web.tags.HasPermissionTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>Displays body content only if the current user
+      'has' (implies) the specified permission (i.e the user has the specified ability).
+		</description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+
+</taglib>

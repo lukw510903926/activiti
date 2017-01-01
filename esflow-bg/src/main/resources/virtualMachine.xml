@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<target nameEn="usedDiskSize" column="usedDiskSize" desc='已用磁盘大小（G）'></target>
+	<target nameEn="networkCard" column="networkCard" desc='网卡数量'></target>
+	<target nameEn="city" column="city" desc='地市'></target>
+	<target nameEn="memorySize" column="memorySize" desc='内存大小(G)'></target>
+	<target nameEn="FCcard" column="FCcard" desc='光纤卡数量'></target>
+	<target nameEn="gongIPaddress" column="gongIPaddress" desc='公网IP地址'></target>
+	<target nameEn="diskSize" column="diskSize" desc='磁盘大小(G)'></target>
+	<target nameEn="cpuFrequency" column="cpuFrequency" desc='CPU频率'></target>
+	<target nameEn="businessDomain" column="businessDomain" desc='业务域'></target>
+	<target nameEn="department" column="department" desc='科室'></target>
+	<target nameEn="VMname" column="VMname" desc='虚拟机名称'></target>
+	<target nameEn="VMstate" column="VMstate" desc='虚拟机状态'></target>
+	<target nameEn="note" column="note" desc='备注'></target>
+	<target nameEn="serverType" column="serverType" desc='服务器类型'></target>
+	<target nameEn="thirdPartySoftware" column="thirdPartySoftware" desc='优先级'></target>
+	<target nameEn="priority" column="priority" desc='优先级'></target>
+	<target nameEn="opSystem" column="opSystem" desc='操作系统'></target>
+	<target nameEn="otherThirdSoftware" column="otherThirdSoftware" desc='其他第三方软件'></target>
+	<target nameEn="adminAccount" column="adminAccount" desc='管理员账号'></target>
+	<target nameEn="operationSystem" column="operationSystem" desc='业务系统'></target>
+	<target nameEn="logicCpuNumber" column="logicCpuNumber" desc='逻辑CPU数量'></target>
+	<target nameEn="wangIPaddress" column="wangIPaddress" desc='网管网IP地址'></target>
+	<target nameEn="neiIPaddress" column="neiIPaddress" desc='内网IP地址'></target>
+	<target nameEn="OAipAddress" column="OAipAddress" desc='OA网IP地址'></target>
+	<target nameEn="administrator" column="administrator" desc='管理人员'></target>
+	<target nameEn="maintenance" column="maintenance" desc='维护人员'></target>
+	<target nameEn="cpuCores" column="cpuCores" desc='CPU核数'></target>
+</root>
+	

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/esflow/itSuperMarketRecyced">
+  <process id="itSuperMarketRecyced" name="IT超市回收流程" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="exclusivegateway1">
+      <extensionElements>
+        <activiti:executionListener event="take" class="com.eastcom.esflow.listener.ITRecyleProductFlowListener"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
+    <userTask id="configurationConfirmTask" name="工单配置">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.eastcom.esflow.listener.ITHandleUserTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="systemLeaderFlow" sourceRef="exclusivegateway1" targetRef="ITApplyBeforeTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='systemLeaderFlow'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="recycledRecognitionTask" name="回收认可"></userTask>
+    <sequenceFlow id="cloudTeamFlow" sourceRef="exclusivegateway1" targetRef="recycledRecognitionTask">
+      <extensionElements>
+        <activiti:executionListener event="take" class="com.eastcom.esflow.listener.ITRecycledFlowListener"></activiti:executionListener>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='cloudTeamFlow'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow4" sourceRef="recycledRecognitionTask" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow5" name="通过" sourceRef="exclusivegateway2" targetRef="ITApplyBeforeTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow5'}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow6" name="不通过" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow6'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="compulsoryRecycleTask" name="强制回收"></userTask>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow8" sourceRef="compulsoryRecycleTask" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow9" name="不通过" sourceRef="exclusivegateway3" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow9'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow10" name="通过" sourceRef="exclusivegateway3" targetRef="configurationConfirmTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow10'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="resultNotificationTask" name="结果通知" activiti:assignee="${SYS_BIZ_CREATEUSER}"></userTask>
+    <endEvent id="endevent2" name="End"></endEvent>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="recycledRecognitionTask" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDate>${endTime}</timeDate>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow13" sourceRef="boundarytimer1" targetRef="compulsoryRecycleTask"></sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="resultNotificationTask" targetRef="endevent2"></sequenceFlow>
+    <userTask id="ITApplyBeforeTask" name="工单预审">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.eastcom.esflow.listener.TurnTaskListener"></activiti:taskListener>
+        <activiti:taskListener event="create" class="com.eastcom.esflow.listener.ITHandleUserTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow16" sourceRef="ITApplyBeforeTask" targetRef="exclusivegateway4"></sequenceFlow>
+    <userTask id="ITApplyTask" name="工单审批">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.eastcom.esflow.listener.TurnTaskListener"></activiti:taskListener>
+        <activiti:taskListener event="create" class="com.eastcom.esflow.listener.ITHandleUserTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow17" name="通过" sourceRef="exclusivegateway4" targetRef="ITApplyTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow17'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow19" name="通过" sourceRef="exclusivegateway5" targetRef="configurationConfirmTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow19'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow20" name="委托" sourceRef="exclusivegateway4" targetRef="ITApplyBeforeTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow20'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow21" name="委托" sourceRef="exclusivegateway5" targetRef="ITApplyTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow21'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="reSubmitTask" name="重新提交" activiti:assignee="${SYS_BIZ_CREATEUSER}"></userTask>
+    <sequenceFlow id="flow23" name="不通过" sourceRef="exclusivegateway5" targetRef="reSubmitTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow23'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow24" name="不通过" sourceRef="exclusivegateway4" targetRef="reSubmitTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow24'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="reSubmitTask" targetRef="exclusivegateway1">
+      <extensionElements>
+        <activiti:executionListener event="take" class="com.eastcom.esflow.listener.ITRecyleProductFlowListener"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="flow26" sourceRef="ITApplyTask" targetRef="exclusivegateway5"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow27" sourceRef="configurationConfirmTask" targetRef="exclusivegateway6"></sequenceFlow>
+    <sequenceFlow id="flow28" name="配置成功" sourceRef="exclusivegateway6" targetRef="resultNotificationTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow28'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow29" name="配置失败" sourceRef="exclusivegateway6" targetRef="endevent2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SYS_BUTTON_VALUE=='flow29'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_itSuperMarketRecyced">
+    <bpmndi:BPMNPlane bpmnElement="itSuperMarketRecyced" id="BPMNPlane_itSuperMarketRecyced">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="111.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="160.0" y="108.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="configurationConfirmTask" id="BPMNShape_configurationConfirmTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="664.0" y="286.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="recycledRecognitionTask" id="BPMNShape_recycledRecognitionTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="128.0" y="286.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="160.0" y="313.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="307.0" y="293.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="310.0" y="366.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="compulsoryRecycleTask" id="BPMNShape_compulsoryRecycleTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="122.0" y="448.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="307.0" y="455.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="resultNotificationTask" id="BPMNShape_resultNotificationTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="777.0" y="421.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1010.0" y="296.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ITApplyBeforeTask" id="BPMNShape_ITApplyBeforeTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="275.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway4" id="BPMNShape_exclusivegateway4">
+        <omgdc:Bounds height="40.0" width="40.0" x="425.0" y="108.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ITApplyTask" id="BPMNShape_ITApplyTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="101.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
+        <omgdc:Bounds height="40.0" width="40.0" x="696.0" y="108.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reSubmitTask" id="BPMNShape_reSubmitTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="393.0" y="1.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
+        <omgdc:Bounds height="40.0" width="40.0" x="809.0" y="293.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="85.0" y="128.0"></omgdi:waypoint>
+        <omgdi:waypoint x="160.0" y="128.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="systemLeaderFlow" id="BPMNEdge_systemLeaderFlow">
+        <omgdi:waypoint x="200.0" y="128.0"></omgdi:waypoint>
+        <omgdi:waypoint x="275.0" y="127.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="cloudTeamFlow" id="BPMNEdge_cloudTeamFlow">
+        <omgdi:waypoint x="180.0" y="148.0"></omgdi:waypoint>
+        <omgdi:waypoint x="180.0" y="286.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="233.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="307.0" y="313.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="327.0" y="293.0"></omgdi:waypoint>
+        <omgdi:waypoint x="327.0" y="155.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="284.0" y="220.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="327.0" y="333.0"></omgdi:waypoint>
+        <omgdi:waypoint x="327.0" y="366.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="320.0" y="337.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="227.0" y="475.0"></omgdi:waypoint>
+        <omgdi:waypoint x="307.0" y="475.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="327.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="327.0" y="401.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="310.0" y="422.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="347.0" y="475.0"></omgdi:waypoint>
+        <omgdi:waypoint x="716.0" y="475.0"></omgdi:waypoint>
+        <omgdi:waypoint x="716.0" y="341.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="486.0" y="455.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="175.0" y="343.0"></omgdi:waypoint>
+        <omgdi:waypoint x="174.0" y="448.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="882.0" y="448.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1027.0" y="448.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1027.0" y="331.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="380.0" y="127.0"></omgdi:waypoint>
+        <omgdi:waypoint x="425.0" y="128.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="465.0" y="128.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="128.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="465.0" y="128.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="716.0" y="148.0"></omgdi:waypoint>
+        <omgdi:waypoint x="716.0" y="286.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="710.0" y="205.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="445.0" y="148.0"></omgdi:waypoint>
+        <omgdi:waypoint x="409.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="327.0" y="155.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="411.0" y="171.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="716.0" y="148.0"></omgdi:waypoint>
+        <omgdi:waypoint x="676.0" y="189.0"></omgdi:waypoint>
+        <omgdi:waypoint x="562.0" y="156.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="651.0" y="184.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="716.0" y="108.0"></omgdi:waypoint>
+        <omgdi:waypoint x="715.0" y="28.0"></omgdi:waypoint>
+        <omgdi:waypoint x="498.0" y="28.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="697.0" y="62.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="445.0" y="108.0"></omgdi:waypoint>
+        <omgdi:waypoint x="445.0" y="56.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="440.0" y="75.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="393.0" y="28.0"></omgdi:waypoint>
+        <omgdi:waypoint x="180.0" y="28.0"></omgdi:waypoint>
+        <omgdi:waypoint x="180.0" y="108.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="615.0" y="128.0"></omgdi:waypoint>
+        <omgdi:waypoint x="696.0" y="128.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="769.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="809.0" y="313.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="829.0" y="333.0"></omgdi:waypoint>
+        <omgdi:waypoint x="829.0" y="421.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="809.0" y="376.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
+        <omgdi:waypoint x="849.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="313.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="882.0" y="313.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
