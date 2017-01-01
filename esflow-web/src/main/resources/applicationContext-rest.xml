@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd"
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
 	default-lazy-init="true">
 
 	<!--使用httpclient的实现，带连接池 -->
@@ -47,8 +43,7 @@
 		</property>
 	</bean>
 
-	<bean id="ky.httpClient" factory-bean="ky.httpClientBuilder"
-		factory-method="build" />
+	<bean id="ky.httpClient" factory-bean="ky.httpClientBuilder" factory-method="build" />
 
 	<bean id="ky.clientHttpRequestFactory"
 		class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
@@ -66,11 +61,6 @@
 		</property>
 		<property name="messageConverters">
 			<list>
-				<!-- <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter" />
-				<bean
-					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" /> -->
 				<bean
 					class="org.springframework.http.converter.StringHttpMessageConverter">
 					<property name="supportedMediaTypes">
@@ -81,18 +71,5 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="cmdbDataClient" class="com.eastcom.cmdb.web.client.ModelconfigClient">
-		<property name="basePath" value="${cmdbData.restUrl}"></property>
-		<property name="restTemplate" ref="restTemplate"></property>
-		<property name="userName" value="${cmdbData.username}"></property>
-		<property name="password" value="${cmdbData.password}"></property>
-	</bean>
-
-	<bean id="modelHttpClient" class="com.eastcom.cmdb.web.client.HttpModelconfigClient">
-		<property name="basePath" value="${cmdbData.restUrl}"></property>
-		<property name="userName" value="${cmdbData.username}"></property>
-		<property name="password" value="${cmdbData.password}"></property>
 	</bean>
 </beans>
