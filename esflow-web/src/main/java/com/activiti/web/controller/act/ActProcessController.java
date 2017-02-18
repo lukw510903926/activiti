@@ -59,12 +59,10 @@ public class ActProcessController {
 	 */
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public DataGrid processList(@RequestParam Map<String, Object> params, Integer page, Integer rows, HttpServletRequest request, HttpServletResponse response) {
+	public DataGrid processList(PageHelper<Object[]> page,@RequestParam Map<String, Object> params, HttpServletRequest request, HttpServletResponse response) {
 		/*
 		 * 保存两个对象，一个是ProcessDefinition（流程定义），一个是Deployment（流程部署）
 		 */
-		page = (page == null || page <= 0) ? 1 : page;
-		rows = (rows == null || rows <= 0) ? 20 : rows;
 		Map<String, Object> params2 = new HashMap<String, Object>();
 		for (String key : params.keySet()) {
 			String value = (String) params.get(key);
@@ -72,15 +70,11 @@ public class ActProcessController {
 				params2.put(key, value);
 			}
 		}
-		PageHelper<Object[]> helper = new PageHelper<Object[]>();
-		helper.setPage(page);
-		helper.setRows(rows);
-
 		DataGrid grid = new DataGrid();
 		try {
 			List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-			helper = actProcessService.processList(helper, null);
-			List<Object[]> tempResult = helper.getList();
+			page = actProcessService.processList(page, null);
+			List<Object[]> tempResult = page.getList();
 			if (CollectionUtils.isNotEmpty(tempResult)) {
 				for (Object[] objects : tempResult) {
 					ProcessDefinitionEntity process = (ProcessDefinitionEntity) objects[0];
@@ -98,7 +92,7 @@ public class ActProcessController {
 				}
 			}
 			grid.setRows(result);
-			grid.setTotal(helper.getTotal());
+			grid.setTotal(page.getTotal());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
