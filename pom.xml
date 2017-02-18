@@ -73,48 +73,6 @@
 	</repositories>
 	<dependencyManagement>
 		<dependencies>
-			<!-- eastcom -->
-	<!-- 		<dependency>
-				<groupId>com.eastcom.common</groupId>
-				<artifactId>eastcom-common</artifactId>
-				<version>${eastcom-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.common</groupId>
-				<artifactId>eastcom-common.core.util</artifactId>
-				<version>${common-coreUtil.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.ipnet</groupId>
-				<artifactId>log4j.client</artifactId>
-				<version>${sso-log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.ipnet</groupId>
-				<artifactId>security.common</artifactId>
-				<version>${sso-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.ipnet</groupId>
-				<artifactId>security.logFilter</artifactId>
-				<version>${sso-logFilter.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.ipnet</groupId>
-				<artifactId>security.remote.client</artifactId>
-				<version>${sso-remote.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom.ipnet</groupId>
-				<artifactId>security.sso.client</artifactId>
-				<version>${sso-client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eastcom</groupId>
-				<artifactId>excel</artifactId>
-				<version>${eastcom-excel.version}</version>
-			</dependency> -->
-			<!-- eastom end -->
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjweaver</artifactId>
@@ -338,11 +296,6 @@
 				<version>1.9.2</version>
 			</dependency>
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
 				<version>${fasterxml.jackson.version}</version>
@@ -356,131 +309,6 @@
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
 				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-cbor</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-csv</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-smile</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-xml</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-yaml</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-guava</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-hibernate4</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-hibernate5</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jaxrs</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jdk8</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-joda</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-json-org</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.jaxrs</groupId>
-				<artifactId>jackson-jaxrs-base</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.jaxrs</groupId>
-				<artifactId>jackson-jaxrs-json-provider</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-module-jaxb-annotations</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-module-kotlin</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-module-parameter-names</artifactId>
-				<version>${fasterxml.jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-lgpl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-jaxrs</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-lgpl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mrbean</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-smile</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-xc</artifactId>
-				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -648,7 +476,5 @@
 	<modules>
 		<module>esflow-web</module>
 		<module>esflow-core</module>
-		<module>esflow-bg</module>
-    <module>esflow-sso</module>
   </modules>
 </project>

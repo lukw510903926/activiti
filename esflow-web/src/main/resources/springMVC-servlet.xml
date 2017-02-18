@@ -13,10 +13,8 @@
 		ignore-unresolvable="true" location="classpath:config.properties" />
 
 	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
-	<context:component-scan base-package="com.eastcom"
-		use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="com.activiti" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
 	<!-- 日期格式类 -->
@@ -73,16 +71,9 @@
     <mvc:resources mapping="/js/**" location="/js/"/>
     <mvc:resources mapping="/plugins/**" location="/plugins/" cache-period="31556926"/>
     <mvc:resources mapping="/themes/**" location="/themes/" cache-period="31556926"/>-->
-	
 
 	<!-- 定义无Controller的path<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="redirect:${web.view.index}" />
-
-	<!-- 拦截器配置 
-	<mvc:interceptors>
-		<bean class="com.eastcom.security.interceptor.LogInterceptor" />
-	</mvc:interceptors>
--->
 
 	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
 	<bean id="multipartResolver"
