@@ -14,11 +14,6 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
@@ -41,16 +36,6 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.alibaba</groupId>
-					<artifactId>jconsole</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.alibaba</groupId>
-					<artifactId>tools</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>opensymphony</groupId>
@@ -104,9 +89,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<compilerArguments>
-						<extdirs>${basedir}/src/main/webapp/WEB-INF/lib</extdirs>
-					</compilerArguments>
 					<warName>esflow</warName>
 					<webResources>
 						<resource>

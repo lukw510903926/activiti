@@ -7,6 +7,7 @@ import com.activiti.core.common.utils.DataGrid;
 import com.activiti.core.common.utils.DateUtils;
 import com.activiti.core.common.utils.Json;
 import com.activiti.core.common.utils.PageHelper;
+import com.activiti.core.service.IProcessModelService;
 import com.activiti.core.service.impl.ProcessModelServiceImpl;
 import org.activiti.engine.repository.Model;
 import org.apache.commons.collections.CollectionUtils;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class ActModelController{
 
 	@Autowired
-	private ProcessModelServiceImpl processModelService;
+	private IProcessModelService processModelService;
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 
